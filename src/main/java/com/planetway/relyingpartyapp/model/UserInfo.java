@@ -1,0 +1,24 @@
+package com.planetway.relyingpartyapp.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString
+public class UserInfo extends User {
+    private static final long serialVersionUID = 1L;
+	private Long id;
+    private String planetId;
+
+    public UserInfo(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities, String planetId) {
+        super(username, password, authorities);
+        this.id = id;
+        this.planetId = planetId;
+    }
+}
