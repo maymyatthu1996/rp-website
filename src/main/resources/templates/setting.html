@@ -18,8 +18,8 @@
 	height: 500px
 }
 
-body{
-font-family: Arial, Helvetica, sans-serif;
+body {
+	font-family: Arial, Helvetica, sans-serif;
 }
 </style>
 <body>
@@ -33,12 +33,6 @@ font-family: Arial, Helvetica, sans-serif;
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarCollapse">
-					<div class="navbar-nav">
-						<a href="/setting" class="nav-item nav-link disabled"
-							tabindex="-1">[[#{menu.setting}]]</a> 
-							<a href="#" class="nav-item nav-link active">[[#{menu.history}]]</a> 
-							<a href="#" class="nav-item nav-link disabled" tabindex="-1">[[#{menu.report}]]</a>
-					</div>
 					<div class="navbar-nav ms-auto">
 						<a href="/logout" class="nav-item nav-link active">[[#{menu.logout}]]</a>
 					</div>
@@ -56,7 +50,8 @@ font-family: Arial, Helvetica, sans-serif;
 					</div>
 				</form>
 			</div>
-			<div class="mb-2" th:if="${#authentication.getPrincipal().getPlanetId()}">
+			<div class="mb-2"
+				th:if="${#authentication.getPrincipal().getPlanetId()}">
 				<form id="unlink_form_post" th:action="@{/unlink}" method="get"
 					onsubmit="return confirmSubmit('Are you sure you want to unlink your Planet ID?', 'unlink_form_post');">
 					<div class="form-group mx-auto" style="width: 200px;">
@@ -66,6 +61,17 @@ font-family: Arial, Helvetica, sans-serif;
 					</div>
 				</form>
 			</div>
+
+			<div class="mb-2"
+				th:if="${#authentication.getPrincipal().getPlanetId()}">
+				<form class="mb-2" th:action="@{/signed-documents}" method="get">
+					<div class="form-group mx-auto" style="width: 200px;">
+						<input type="submit" name="delete-user" id="delete-user"
+							class="form-control btn btn-secondary" value="Sign Document List" />
+					</div>
+				</form>
+			</div>
+
 			<form class="mb-2" th:action="@{/#}" method="get">
 				<div class="form-group mx-auto" style="width: 200px;">
 					<input type="submit" name="delete-user" id="delete-user"
@@ -75,7 +81,8 @@ font-family: Arial, Helvetica, sans-serif;
 			<form class="mb-2" th:action="@{/}" method="get">
 				<div class="form-group mx-auto" style="width: 200px;">
 					<input type="submit" name="history" id="history"
-						class="form-control btn btn-secondary" th:value="#{'setting.return'}" />
+						class="form-control btn btn-secondary"
+						th:value="#{'setting.return'}" />
 				</div>
 			</form>
 		</div>
@@ -89,14 +96,14 @@ font-family: Arial, Helvetica, sans-serif;
 		crossorigin="anonymous"></script>
 
 	<script>
-    function confirmSubmit(message, formId) {
-        if (confirm(message) === true) {
-            document.getElementById(formId).submit();
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
+		function confirmSubmit(message, formId) {
+			if (confirm(message) === true) {
+				document.getElementById(formId).submit();
+				return true;
+			} else {
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

@@ -18,8 +18,8 @@
 	width: 1000px;
 }
 
-body{
-font-family: Arial, Helvetica, sans-serif;
+body {
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .text-color {
@@ -37,12 +37,8 @@ font-family: Arial, Helvetica, sans-serif;
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarCollapse">
-					<div class="navbar-nav">
-						<a href="/setting" class="nav-item nav-link active">[[#{menu.setting}]]</a> <a
-							href="#" class="nav-item nav-link active">[[#{menu.history}]]</a>  <a
-							href="#" class="nav-item nav-link disabled" tabindex="-1">[[#{menu.report}]]</a>
-					</div>
 					<div class="navbar-nav ms-auto">
+						<a href="/setting" class="nav-item nav-link active">[[#{menu.setting}]]</a>
 						<a href="/logout" class="nav-item nav-link active">[[#{menu.logout}]]</a>
 					</div>
 				</div>
@@ -54,7 +50,13 @@ font-family: Arial, Helvetica, sans-serif;
 				<h1>[[#{contract.title}]]</h1>
 			</div>
 			<div th:if="${checkoutform.soapFlg == 1}">
-			<p class="text-color">[[#{retrieve.data.text}]]</p>
+				<p class="text-color">[[#{retrieve.data.text}]]</p>
+			</div>
+			<div  th:if="${checkoutform.soapFlg != 1}">
+				<span>[[#{consent.confirm.text}]]<a
+					class="btn btn-primary btn-sm" href="/" th:href="@{/bank-select}"
+					role="button">[[#{consent.confirm.button}]]</a>
+				</span>
 			</div>
 			<form th:action="@{/checkoutpage}" method="post"
 				th:object="${checkoutform}">
@@ -70,7 +72,8 @@ font-family: Arial, Helvetica, sans-serif;
 					<label for="phone" class="col-sm-2 col-form-label">[[#{contract.phone}]]</label>
 					<div class="col-sm-7">
 						<input type="text" class="form-control" id="phone"
-							placeholder="000-0000-0000" th:field="${checkoutform.phone}" required>
+							placeholder="000-0000-0000" th:field="${checkoutform.phone}"
+							required>
 					</div>
 				</div>
 
@@ -99,12 +102,8 @@ font-family: Arial, Helvetica, sans-serif;
 				</div>
 
 				<div class="row justify-content-end">
-					<div class="col-1">
+					<div class="col-10">
 						<button type="submit" class="btn btn-primary btn-sm">[[#{contract.confirm}]]</button>
-					</div>
-					<div class="col-9">
-						<span>[[#{consent.confirm.text}]]<a class="btn btn-primary btn-sm" href="/" th:href="@{/bank-select}" role="button">[[#{consent.confirm.button}]]</a>
-					</span>
 					</div>
 				</div>
 			</form>

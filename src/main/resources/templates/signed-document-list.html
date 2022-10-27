@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check Out Page</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<style>
+.container {
+	width: 900px;
+}
+
+.text-color {
+	color: #f70a0a;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a href="/" class="navbar-brand bi-globe">Welcome to APEX</a>
+				<button type="button" class="navbar-toggler"
+					data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarCollapse">
+					<div class="navbar-nav ms-auto">
+						<a href="/setting" class="nav-item nav-link active">[[#{menu.setting}]]</a>
+						<a href="/logout" class="nav-item nav-link active">[[#{menu.logout}]]</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<br>
+		<div class="card">
+			<div class="card-body mx-5">
+				<p class="my-5 mx-5" style="font-size: 30px; text-align: center;">[[#{consent-list-title}]]</p>
+				<div class="row">
+					<p>
+						Planet ID:<span class="float-right text-color"
+							th:text="${planetId}"></span>
+					</p>
+				</div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th scope="col">[[#{list-date}]]</th>
+							<th scope="col">[[#{list-thirdparty}]]</th>
+							<th scope="col">[[#{list-signtype}]]</th>
+							<th scope="col">[[#{list-consent-status}]]</th>
+						</tr>
+					</thead>
+					<th:block th:each="doc : ${docs}">
+						<tr th:if="${doc.revokeDocumentUuid == null}">
+							<td th:text="${#dates.format(doc.createdAt, 'dd.MM.yyyy HH:mm')}"
+								nowrap></td>
+							<td>Mori Data Bank, Inc.</td>
+							<td th:text="${doc.signatureType}"></td>
+							<td style="text-align: center;"><a
+								th:if="${doc.signatureType == 'CONSENT' && #authentication.getPrincipal().getPlanetId() == doc.planetId}"
+								th:href="@{|/signed-documents/${doc.uuid}/revoke-check|}">[[#{revoke-exist}]]</a>
+							</td>
+						</tr>
+						<tr th:if="${doc.revokeDocumentUuid != null}">
+							<td th:text="${#dates.format(doc.createdAt, 'dd.MM.yyyy HH:mm')}"
+								nowrap></td>
+							<td>Mori Data Bank, Inc.</td>
+							<td th:text="${doc.signatureType}"></td>
+							<td style="text-align: center;">[[#{status-revoked}]]</td>
+						</tr>
+					</th:block>
+				</table>
+
+			</div>
+		</div>
+		<div class="text-center" style="margin-top: 20px; margin-buttom: 20px">
+			<form th:action="@{/}">
+				<button type="submit" class="btn btn-secondary">[[#{setting.return}]]</button>
+			</form>
+		</div>
+	</div>
+	<script>
+		var dt = new Date();
+		document.getElementById("time").innerHTML = dt.toLocaleDateString();
+	</script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+		crossorigin="anonymous"></script>
+</body>
+</html>

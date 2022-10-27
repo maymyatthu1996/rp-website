@@ -32,21 +32,17 @@
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarCollapse">
-					<div class="navbar-nav">
-						<a href="/setting" class="nav-item nav-link active">[[#{menu.setting}]]</a>
-						<a href="#" class="nav-item nav-link active">[[#{menu.history}]]</a>
-						<a href="#" class="nav-item nav-link disabled" tabindex="-1">[[#{menu.report}]]</a>
-					</div>
 					<div class="navbar-nav ms-auto">
+						<a href="/setting" class="nav-item nav-link active">[[#{menu.setting}]]</a>
 						<a href="/logout" class="nav-item nav-link active">[[#{menu.logout}]]</a>
 					</div>
 				</div>
 			</div>
 		</nav>
 		<br>
-		<div class="card">
+		<div id="contract" class="card">
 			<div class="card-body mx-5">
-				<p class="my-5 mx-5" style="font-size: 30px; text-align: center;">[[#{signing.title.text}]]</p>
+				<p class="my-3 mx-3" style="font-size: 30px; text-align: center;">[[#{signing.title.text}]]</p>
 				<div class="row">
 					<p>
 						[[#{date.time}]]:<span class="float-right" id="time"></span>
@@ -68,194 +64,146 @@
 						</tr>
 					</tbody>
 				</table>
-<!-- 				<div class="row">
-					<div class="col-6">
-						<div class="card mb-2">
-							<div class="card-body">
-								<h5 class="card-title">
-									<h3>[[#{customer.info}]]</h3>
-								</h5>
-								<div class="row">
-									<div class="col-xl-2">
 
-										<p>[[#{retrieve.name}]]</p>
-									</div>
-									<div class="col-xl-2">
-										<span class="text-color" th:text="${checkoutform.name}"></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="card mb-2">
-							<div class="card-body">
-								<h5 class="card-title">
-									<h3>[[#{customer.info}]]</h3>
-								</h5>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>[[#{seller.info}]]</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th>[[#{customer.info}]]</th>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>[[#{seller.com.name}]]</td>
+							<td colspan="4">[[#{seller.name}]]</td>
+							<td>[[#{retrieve.name}]]</td>
+							<td colspan="4" class="text-color" th:text="${checkoutform.name}"></td>
+						</tr>
+						<tr>
+							<td>[[#{seller.contract.date}]]</td>
+							<td colspan="4">2022/10/14</td>
+							<td>[[#{retrieve.dob}]]</td>
+							<td colspan="4" class="text-color" th:text="${checkoutform.dob}"></td>
+						</tr>
+						<tr>
+							<td>[[#{seller.com.mail}]]</td>
+							<td colspan="4">jidousha@apex.com</td>
+							<td>[[#{retrieve.job}]]</td>
+							<td colspan="4" class="text-color" th:text="${checkoutform.job}"></td>
+						</tr>
+						<tr>
+							<td>[[#{seller.com.phno}]]</td>
+							<td colspan="4">[[#{seller.phno}]]</td>
+							<td>[[#{retrieve.phno}]]</td>
+							<td colspan="4" class="text-color"
+								th:text="${checkoutform.phone}"></td>
+						</tr>
+						<tr>
+							<td>[[#{seller.com.address}]]</td>
+							<td colspan="4">[[#{seller.address}]]</td>
+							<td>[[#{retrieve.address}]]</td>
+							<td colspan="4" class="text-color"
+								th:text="${checkoutform.address}"></td>
+						</tr>
+						<!-- 						<tr>
+							<td>John</td>
+							<td colspan="4">Doe</td>
+							<td>John</td>
+							<td colspan="4"></td>
+						</tr> -->
+					</tbody>
+				</table>
 
-							</div>
-						</div>
-					</div>
-					</div> -->
-					<div class="row">
-						<!-- <ul class="list-unstyled">
-						<li class="text-black"><h3>[[#{customer.info}]]</h3></li>
-					</ul> -->
-						<div class="col-xl-6">
-							<p><h3>[[#{seller.info}]]</h3></p>
-						</div>
-						<div class="col-xl-4">
-							<p><h3>[[#{customer.info}]]</h3></p>
-						</div>
-					</div>
+				<div class="row">
+					<ul class="list-unstyled">
+						<li class="text-black"><h3>[[#{purchase.info}]]</h3></li>
+					</ul>
+				</div>
 
-					<div class="row">
-						<div class="col-xl-2">
-							<p>[[#{seller.com.name}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span>[[#{seller.name}]]</span>							
-						</div>
-						<div class="col-xl-2">
-							<p>[[#{retrieve.name}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span class="text-color" th:text="${checkoutform.name}"></span>
-						</div>
-						<hr>
+				<div class="row">
+					<div class="col-xl-4">
+						<p>[[#{purchase.amount}]]</p>
 					</div>
-					<div class="row">
-						<div class="col-xl-2">
-							<p>[[#{seller.contract.date}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span id="time">2022/10/14</span>
-						</div>
-						<div class="col-xl-2">
-							<p>[[#{retrieve.dob}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span class="text-color" th:text="${checkoutform.dob}"></span>
-						</div>
-						<hr>
+					<div class="col-xl-6">
+						<p class="float-end">[[#{purchase.amount.value}]]</p>
 					</div>
-					<div class="row">
-						<div class="col-xl-2">
-							<p>[[#{seller.com.mail}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span>jidousha@apex.com</span>
-						</div>
-						<div class="col-xl-2">
-							<p>[[#{retrieve.job}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span class="text-color" th:text="${checkoutform.job}"></span>
-						</div>
-						<hr>
+					<hr>
+				</div>
+				<div class="row">
+					<div class="col-xl-4">
+						<p>[[#{purchase.tax}]]</p>
 					</div>
-					<div class="row">
-						<div class="col-xl-2">
-							<p>[[#{seller.com.phno}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span>[[#{seller.phno}]]</span>
-						</div>
-						<div class="col-xl-2">
-							<p>[[#{retrieve.phno}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span class="text-color" th:text="${checkoutform.phone}"></span>
-						</div>
-						<hr>
+					<div class="col-xl-6">
+						<p class="float-end">[[#{purchase.tax.value}]]</p>
 					</div>
-					<div class="row">
-						<div class="col-xl-2">
-							<p>[[#{seller.com.address}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span>[[#{seller.address}]]</span>
-						</div>
-						<div class="col-xl-2">
-							<p>[[#{retrieve.address}]]</p>
-						</div>
-						<div class="col-xl-4">
-							<span class="text-color" th:text="${checkoutform.address}"></span>
-						</div>
-						<hr>
-					</div>
+					<hr>
+				</div>
 
-					<div class="row">
-						<ul class="list-unstyled">
-							<li class="text-black"><h3>[[#{purchase.info}]]</h3></li>
-						</ul>
-					</div>
+				<div class="row text-black">
 
-					<div class="row">
-						<div class="col-xl-4">
-							<p>[[#{purchase.amount}]]</p>
-						</div>
-						<div class="col-xl-6">
-							<p class="float-end">[[#{purchase.amount.value}]]</p>
-						</div>
-						<hr>
+					<div class="col-xl-10">
+						<p class="float-end fw-bold">Total: [[#{purchase.total}]]</p>
 					</div>
-					<div class="row">
-						<div class="col-xl-4">
-							<p>[[#{purchase.tax}]]</p>
-						</div>
-						<div class="col-xl-6">
-							<p class="float-end">[[#{purchase.tax.value}]]</p>
-						</div>
-						<hr>
+					<hr style="border: 2px solid black;">
+					<div class="text-center" th:if="${checkoutform.soapFlg == 1}">
+						<p class="text-color">[[#{sign.data.text}]]</p>
 					</div>
-					<div class="row text-black">
+				</div>
 
-						<div class="col-xl-10">
-							<p class="float-end fw-bold">Total: [[#{purchase.total}]]</p>
-						</div>
-						<hr style="border: 2px solid black;">
-						<div class="text-center" th:if="${checkoutform.soapFlg == 1}">
-							<p class="text-color">[[#{sign.data.text}]]</p>
-						</div>
-					</div>
-
-					<div class="text-center" style="margin-top: 50px;">
-						<form th:action="@{/digitalSign}" method="post">
-							<button type="submit" class="btn btn-success">[[#{signing.button}]]</button>
-						</form>
-
-					</div>
-					<div class="text-center" style="margin-top: 20px;">
-						<form id="return_checkoutpage" th:action="@{/returnCheckoutPage}"
-							onsubmit="return confirmSubmit('If you return checkout page, you will lost data.', 'return_checkoutpage');">
-							<button type="submit" class="btn btn-secondary">[[#{setting.return}]]</button>
-						</form>
-					</div>
+				<div class="text-center"
+					style="margin-top: 30px; margin-buttom: 30px">
+					<form th:action="@{/digitalSign}" method="post">
+						<button type="submit" class="btn btn-success">[[#{signing.button}]]</button>
+					</form>
 				</div>
 			</div>
 		</div>
-		<hr>
+		<div class="text-center" style="margin-top: 20px;">
+			<form id="return_checkoutpage" th:action="@{/returnCheckoutPage}"
+				onsubmit="return confirmSubmit('If you return checkout page, you will lost data.', 'return_checkoutpage');">
+				<button type="submit" class="btn btn-secondary">[[#{setting.return}]]</button>
+			</form>
+		</div>
+		<div class="text-center" style="margin-top: 30px;">
+			<button onclick="downloadPDF()">Download</button>
+		</div>
+		<div style="margin-top: 30px;"></div>
+	</div>
 
-		<script>
-			var dt = new Date();
-			document.getElementById("time").innerHTML = dt.toLocaleDateString();
-		</script>
-		<script>
-			function confirmSubmit(message, formId) {
-				if (confirm(message) === true) {
-					document.getElementById(formId).submit();
-					return true;
-				} else {
-					return false;
-				}
+	<script>
+		var dt = new Date();
+		document.getElementById("time").innerHTML = dt.toLocaleDateString();
+	</script>
+	<script>
+		function confirmSubmit(message, formId) {
+			if (confirm(message) === true) {
+				document.getElementById(formId).submit();
+				return true;
+			} else {
+				return false;
 			}
-		</script>
+		}
 
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-			crossorigin="anonymous"></script>
+		function downloadPDF() {
+			const element = document.getElementById("contract");
+
+			html2pdf().from(element).save();
+		}
+	</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 </body>
 </html>

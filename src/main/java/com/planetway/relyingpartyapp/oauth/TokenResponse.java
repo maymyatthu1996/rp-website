@@ -13,10 +13,14 @@ public class TokenResponse {
 	private String payload;
     private String idToken;
     private String accessToken;
+    private String payloadUuid;
+    private String consentUuid;
 
     // parsed variables
     @JsonIgnore
     private String planetId;
     @JsonIgnore
     private byte[] signedContainer;
+    @JsonIgnore
+    private boolean signedContainerTimestamped;
 }
