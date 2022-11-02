@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import com.planetway.relyingpartyapp.config.AppProperties;
 import com.planetway.relyingpartyapp.model.DataBank;
 import com.planetway.relyingpartyapp.model.SignedDocumentEntity;
@@ -58,5 +61,23 @@ public class SignedDocumentsController {
     	modelAndView.addObject("sde", sde);
     	modelAndView.addObject("pxService", fullProviderPxService);    	
     	return modelAndView;
+    }
+    @GetMapping("{uuid}/download")
+    public ResponseEntity<byte[]> download(@AuthenticationPrincipal UserInfo userInfo, @PathVariable String uuid) {
+
+        SignedDocumentEntity doc = signedDocumentRepository.findByUserIdAndUuid(userInfo.getId(), uuid);
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + uuid + ".asice");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        byte[] asice = doc.getData();
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(asice.length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(asice);
     }
 }

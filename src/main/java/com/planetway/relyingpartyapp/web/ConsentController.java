@@ -101,23 +101,6 @@ public class ConsentController {
 		}
 	}
 
-//    @GetMapping("{uuid}/revoke")
-//    public ResponseEntity<String> revokeConsent(@AuthenticationPrincipal UserInfo userInfo, @PathVariable String uuid, HttpServletResponse response) {
-//        String redirectUri = appProperties.getBaseUrl() + "/callback/consent-revoke";
-//
-//        SignedDocumentEntity sde = signedDocumentRepository.findByUserIdAndUuid(userInfo.getId(), uuid);
-//        String redirectUrl = "/signed-documents";
-//        if (userInfo.getPlanetId().equals(sde.getPlanetId())) {
-//            String consentRevokeDocument = consentContainerService.createConsentRevokeDocument(sde.getConsentUuid(), userInfo.getPlanetId());
-//            AuthRequest authRequest = openIdSupport.createRequestForConsentRevoke(response, redirectUri, userInfo.getPlanetId(), consentRevokeDocument);
-//            redirectUrl = authRequest.toLocation();
-//        }
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Location", redirectUrl);
-//        return new ResponseEntity<>(headers, HttpStatus.FOUND);
-//    }
-
 	@GetMapping("{uuid}/revoke")
 	public ResponseEntity<String> revokeConsent(@AuthenticationPrincipal UserInfo userInfo, @PathVariable String uuid,
 			HttpServletRequest req, HttpServletResponse res) {

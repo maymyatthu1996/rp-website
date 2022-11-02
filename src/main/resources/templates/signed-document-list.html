@@ -64,9 +64,11 @@
 								nowrap></td>
 							<td>Mori Data Bank, Inc.</td>
 							<td th:text="${doc.signatureType}"></td>
-							<td style="text-align: center;"><a
+							<td style="text-align: center;">
+							<a th:href="@{|/signed-documents/${doc.uuid}/download|}">Download</a>
+							<a
 								th:if="${doc.signatureType == 'CONSENT' && #authentication.getPrincipal().getPlanetId() == doc.planetId}"
-								th:href="@{|/signed-documents/${doc.uuid}/revoke-check|}">[[#{revoke-exist}]]</a>
+								th:href="@{|/signed-documents/${doc.uuid}/revoke-check|}" th:text="#{revoke-exist}"></a>
 							</td>
 						</tr>
 						<tr th:if="${doc.revokeDocumentUuid != null}">
@@ -86,6 +88,7 @@
 				<button type="submit" class="btn btn-secondary">[[#{setting.return}]]</button>
 			</form>
 		</div>
+		<div style="margin-top: 20px;"></div>
 	</div>
 	<script>
 		var dt = new Date();
