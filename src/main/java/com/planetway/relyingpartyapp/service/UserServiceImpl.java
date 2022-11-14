@@ -1,16 +1,12 @@
 package com.planetway.relyingpartyapp.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import static java.util.Collections.emptyList;
 
+import java.util.Collections;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.planetway.relyingpartyapp.exception.PlanetIdNotLinkedException;
 import com.planetway.relyingpartyapp.model.PlanetIdEntity;
-import com.planetway.relyingpartyapp.model.Role;
 import com.planetway.relyingpartyapp.model.User;
 import com.planetway.relyingpartyapp.model.UserInfo;
 import com.planetway.relyingpartyapp.model.UserRegistrationDto;
@@ -46,7 +41,7 @@ public class UserServiceImpl implements UserService{
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		User user = new User(registrationDto.getFirstName(), 
 				registrationDto.getLastName(), registrationDto.getEmail(),
-				passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+				passwordEncoder.encode(registrationDto.getPassword()));
 		
 		return userRepository.save(user);
 	}
@@ -65,11 +60,7 @@ public class UserServiceImpl implements UserService{
         } else {
             planetId = null;
         }
-		return new UserInfo(user.getId(),user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()), planetId);	
-	}
-	
-	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+		return new UserInfo(user.getId(),user.getEmail(), user.getPassword(), emptyList(), planetId);	
 	}
 	
 	@Transactional
@@ -99,7 +90,7 @@ public class UserServiceImpl implements UserService{
             throw new PlanetIdNotLinkedException("PlanetID " + planetId + " not linked to account ");
         }
 
-        UserInfo principal = new UserInfo(user.getId(),user.getEmail(), user.getPassword(),mapRolesToAuthorities(user.getRoles()), planetId);
+        UserInfo principal = new UserInfo(user.getId(),user.getEmail(), user.getPassword(),emptyList(), planetId);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(principal, null, Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }

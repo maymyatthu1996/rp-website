@@ -65,9 +65,8 @@
 							<td>Mori Data Bank, Inc.</td>
 							<td th:text="${doc.signatureType}"></td>
 							<td style="text-align: center;">
-							<a th:href="@{|/signed-documents/${doc.uuid}/download|}">Download</a>
-							<a
-								th:if="${doc.signatureType == 'CONSENT' && #authentication.getPrincipal().getPlanetId() == doc.planetId}"
+							<a th:href="@{|/signed-documents/${doc.uuid}/download|}">Download</a><br>
+							<a class="text-color" th:if="${doc.signatureType == 'CONSENT' && #authentication.getPrincipal().getPlanetId() == doc.planetId}"
 								th:href="@{|/signed-documents/${doc.uuid}/revoke-check|}" th:text="#{revoke-exist}"></a>
 							</td>
 						</tr>

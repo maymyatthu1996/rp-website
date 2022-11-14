@@ -118,7 +118,7 @@ public class CallBackController {
 			doc.setSignatureType("SIGNING");
 			doc.setUserId(userInfo.getId());
 			doc.setPlanetId(userInfo.getPlanetId());
-			doc.setData(tokenResponse.getSignedContainer());
+			//doc.setData(tokenResponse.getSignedContainer());
 			doc.setUuid(tokenResponse.getPayloadUuid());
 			doc.setHasTimestamp(tokenResponse.isSignedContainerTimestamped());
 			doc.setConsentUuid(tokenResponse.getConsentUuid());
@@ -136,7 +136,7 @@ public class CallBackController {
 			doc.setSignatureType("CONSENT");
 			doc.setUserId(userInfo.getId());
 			doc.setPlanetId(userInfo.getPlanetId());
-			doc.setData(tokenResponse.getSignedContainer());
+			//doc.setData(tokenResponse.getSignedContainer());
 			doc.setUuid(tokenResponse.getPayloadUuid());
 			doc.setHasTimestamp(tokenResponse.isSignedContainerTimestamped());
 			doc.setConsentUuid(tokenResponse.getConsentUuid());

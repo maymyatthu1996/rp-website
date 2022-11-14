@@ -2,6 +2,10 @@ package com.planetway.relyingpartyapp.service;
 
 import static org.springframework.http.HttpMethod.GET;
 
+import java.io.ByteArrayInputStream;
+
+import org.digidoc4j.DataFile;
+import org.digidoc4j.impl.asic.asice.AsicEContainer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,9 +17,9 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.UnknownHttpStatusCodeException;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.planetway.relyingpartyapp.oauth.TokenResponse;
-
+import jp.planetway.planetid.validator.PlanetIdContainer;
+import jp.planetway.planetid.validator.ContainerValidator;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -100,6 +104,33 @@ public class PCoreService {
         }
 		return statusCode;
 	}
+	
+	public byte[] downloadSignedDocument(String uuid) {
+		String url = "https://api.poc.planet-id.me/v2/relying-parties/signed-containers/" + uuid;
+		return signedDocumentReq(url);
+	}
+	
+	private byte[] signedDocumentReq(String url) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = prepareHeaders(
+				"Basic " + Base64Utils.encodeToString((CLIENTID + ":" + CLIENTSECRET).getBytes()));
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<byte[]> exchange = restTemplate.exchange(url, GET, entity, byte[].class);
+		ContainerValidator.validate(new ByteArrayInputStream(exchange.getBody()));
+		//Boolean result = isAsiceContainerTimestamped(exchange.getBody());
+		//System.out.println("exchange.getBody():" + exchange.getBody());
+		//System.out.println(result);
+		return exchange.getBody();
+		//return isAsiceContainerTimestamped(exchange.getBody());
+		}
+	
+	public boolean isAsiceContainerTimestamped(byte[] signedContainer) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(signedContainer);
+        PlanetIdContainer container = new PlanetIdContainer(bais);
+        System.out.println("getTimestampDecoded():" + container.getTimestampDecoded().toString());
+        System.out.println(new String(container.getTimestampDecoded()));
+        return container.getTimestampDecoded() != null;
+    }
 
 	private HttpHeaders prepareHeaders(String authorizationValue) {
 		HttpHeaders headers = new HttpHeaders();

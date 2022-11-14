@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
@@ -36,7 +37,7 @@ public class SignedDocumentsController {
     @GetMapping("")
     public ModelAndView getSignedDocuments(@AuthenticationPrincipal UserInfo userInfo) {
         ModelAndView modelAndView = new ModelAndView("signed-document-list");       
-        List<SignedDocumentEntity> docs = signedDocumentRepository.getAllByUserId(userInfo.getId());
+        List<SignedDocumentEntity> docs = signedDocumentRepository.findAll((Sort.by(Order.desc("id"))));
         modelAndView.addObject("docs", docs);
         modelAndView.addObject("planetId",userInfo.getPlanetId());
         return modelAndView;
@@ -64,8 +65,10 @@ public class SignedDocumentsController {
     }
     @GetMapping("{uuid}/download")
     public ResponseEntity<byte[]> download(@AuthenticationPrincipal UserInfo userInfo, @PathVariable String uuid) {
-
-        SignedDocumentEntity doc = signedDocumentRepository.findByUserIdAndUuid(userInfo.getId(), uuid);
+    	
+    	byte[] document = pCoreService.downloadSignedDocument(uuid);
+    	//System.out.println(document);
+        //SignedDocumentEntity doc = signedDocumentRepository.findByUserIdAndUuid(userInfo.getId(), uuid);
 
         HttpHeaders header = new HttpHeaders();
         header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + uuid + ".asice");
@@ -73,11 +76,11 @@ public class SignedDocumentsController {
         header.add("Pragma", "no-cache");
         header.add("Expires", "0");
 
-        byte[] asice = doc.getData();
+        //byte[] asice = doc.getData();
         return ResponseEntity.ok()
                 .headers(header)
-                .contentLength(asice.length)
+                .contentLength(document.length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(asice);
+                .body(document);
     }
 }

@@ -21,10 +21,10 @@ public class SignedDocumentEntity {
     private String uuid;
     private String signatureType;
     private Long userId;
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Column(name = "data", columnDefinition = "BLOB", nullable = false)
-    private byte[] data;
+//    @Lob
+//    @Basic(fetch = FetchType.LAZY)
+//    @Column(name = "data", columnDefinition = "BLOB", nullable = false)
+//    private byte[] data;
     private String planetId;
     private boolean hasTimestamp;
     private String consentUuid;
