@@ -4,7 +4,6 @@ import static java.util.Collections.emptyList;
 
 import java.util.Collections;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,10 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.planetway.relyingpartyapp.exception.PlanetIdNotLinkedException;
 import com.planetway.relyingpartyapp.model.PlanetIdEntity;
-import com.planetway.relyingpartyapp.model.User;
+import com.planetway.relyingpartyapp.model.RpUserEntity;
 import com.planetway.relyingpartyapp.model.UserInfo;
 import com.planetway.relyingpartyapp.model.UserRegistrationDto;
 import com.planetway.relyingpartyapp.repository.PlanetIdRepository;
@@ -37,9 +35,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User save(UserRegistrationDto registrationDto) {
+	public RpUserEntity save(UserRegistrationDto registrationDto) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		User user = new User(registrationDto.getFirstName(), 
+		RpUserEntity user = new RpUserEntity(registrationDto.getFirstName(), 
 				registrationDto.getLastName(), registrationDto.getEmail(),
 				passwordEncoder.encode(registrationDto.getPassword()));
 		
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
 	
-		User user = userRepository.findByEmail(username);
+		RpUserEntity user = userRepository.findByEmail(username);
 		if(user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
@@ -84,8 +82,7 @@ public class UserServiceImpl implements UserService{
 	
     public void loginUserWithPlanetId(String planetId) {
         //log.info("Logging in user with PlanetID: {}", planetId);
-
-        User user = userRepository.findByPlanetId(planetId);
+    	RpUserEntity user = userRepository.findByPlanetId(planetId);
         if (user == null) {
             throw new PlanetIdNotLinkedException("PlanetID " + planetId + " not linked to account ");
         }

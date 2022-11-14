@@ -1,11 +1,8 @@
 package com.planetway.relyingpartyapp.service;
 
 import static org.springframework.http.HttpMethod.GET;
-
+import static org.springframework.http.HttpMethod.DELETE;
 import java.io.ByteArrayInputStream;
-
-import org.digidoc4j.DataFile;
-import org.digidoc4j.impl.asic.asice.AsicEContainer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +26,8 @@ public class PCoreService {
 	private final String CLIENTSECRET = "123qwe";
 	private final String URL = "https://api.poc.planet-id.me";
 	private final String CONSENTSTATUS_URL = "https://consent.poc.planet-id.me/v2/relying-parties/consent-status";
+	private final String UNLINK_URL = "https://api.poc.planet-id.me/v2/relying-parties/identities/";
+	private final String DOWNSIGN_URL = "https://api.poc.planet-id.me/v2/relying-parties/signed-containers/";
 
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -61,15 +60,45 @@ public class PCoreService {
 	public String checkLinkStatus(String id) {
 		return linkStsCheck(id);
 	}
-	
+
 	private String linkStsCheck(String id) {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = prepareHeaders(
 				"Basic " + Base64Utils.encodeToString((CLIENTID + ":" + CLIENTSECRET).getBytes()));
 		HttpEntity<String> entity = new HttpEntity<>(headers);
-		ResponseEntity<String> exchange = restTemplate.exchange("https://api.poc.planet-id.me/v2/relying-parties/identities/" +id, GET, entity, String.class);
-		System.out.print(exchange.getBody() + exchange.getStatusCodeValue());
-		return exchange.getBody();
+		ResponseEntity<String> response = null;
+		String statusCode = null;
+        try {
+            response = restTemplate.exchange("https://api.poc.planet-id.me/v2/relying-parties/identities/"  +id, DELETE, entity, String.class);
+            System.out.println("Success: " + response.getBody());
+            //System.out.println(response.getStatusCodeValue());
+            statusCode = Integer.toString(response.getStatusCodeValue());
+        } catch (HttpClientErrorException clientException) {
+            System.out.println("Status code 4xx: " + clientException);
+            statusCode = Integer.toString(clientException.getRawStatusCode());
+        } catch (UnknownHttpStatusCodeException e) {
+            System.out.println("Something else: " + e);
+        }
+		return statusCode;
+	}
+	
+	public void unLinkPlanetId(String id) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = prepareHeaders(
+				"Basic " + Base64Utils.encodeToString((CLIENTID + ":" + CLIENTSECRET).getBytes()));
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> response = null;
+		//String statusCode = null;
+        try {
+            response = restTemplate.exchange(UNLINK_URL +id, GET, entity, String.class);
+            System.out.println(response.getStatusCodeValue());
+            //statusCode = Integer.toString(response.getStatusCodeValue());
+        } catch (HttpClientErrorException clientException) {
+            System.out.println("Status code 4xx: " + clientException);
+            //statusCode = Integer.toString(clientException.getRawStatusCode());
+        } catch (UnknownHttpStatusCodeException e) {
+            System.out.println("Something else: " + e);
+        }
 	}
 
 	public String checkConsentStatus(String planetId,String subsysId,String serviceId) {
@@ -92,7 +121,7 @@ public class PCoreService {
         try {
             response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
             System.out.println("Success: " + response.getBody());
-            System.out.println(response.getStatusCodeValue());
+            //System.out.println(response.getStatusCodeValue());
             statusCode = Integer.toString(response.getStatusCodeValue());
         } catch (HttpClientErrorException clientException) {
             System.out.println("Status code 4xx: " + clientException);
@@ -106,7 +135,7 @@ public class PCoreService {
 	}
 	
 	public byte[] downloadSignedDocument(String uuid) {
-		String url = "https://api.poc.planet-id.me/v2/relying-parties/signed-containers/" + uuid;
+		String url = DOWNSIGN_URL + uuid;
 		return signedDocumentReq(url);
 	}
 	

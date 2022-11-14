@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.planetway.relyingpartyapp.model.UserInfo;
+import com.planetway.relyingpartyapp.service.PCoreService;
 import com.planetway.relyingpartyapp.service.UserServiceImpl;
 import  com.planetway.relyingpartyapp.util.SecureRandomUtil;
 
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class MainController {
 	
 	private final UserServiceImpl userService;
+	private final PCoreService pCoreService;
 
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -149,7 +151,12 @@ public class MainController {
 	
     @GetMapping("/unlink")
     public String unlinkPlanetId(@AuthenticationPrincipal UserInfo userInfo) {
-        userService.unlinkPlanetId(userInfo);
+    	
+    	String code = pCoreService.checkLinkStatus(userInfo.getPlanetId());
+    	if (code.equals("200")) {
+    		pCoreService.unLinkPlanetId(userInfo.getPlanetId());
+    	}
+    	userService.unlinkPlanetId(userInfo);    	      
         return "redirect:/setting";
     }
     

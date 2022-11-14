@@ -8,15 +8,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-@Entity
-@Table(name =  "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Table(name = "rp_user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class User {
+@Entity
+public class RpUserEntity{
 	
 	@Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "first_name")
@@ -28,16 +37,14 @@ public class User {
 	private String email;
 	
 	private String password;
-		
-	public User() {
-		
-	}
-	
-	public User(String firstName, String lastName, String email, String password) {
+
+	public RpUserEntity(String firstName, String lastName, String email, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 	}
+	
+	
 }
