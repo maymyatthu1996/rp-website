@@ -83,7 +83,7 @@
 				<div th:if="${sde.revokeDocumentUuid == null}">
 					<div class="text-center" style="margin-top: 20px;">
 						<form th:action="@{|/${sde.uuid}/revoke|}">
-							<button type="submit" class="btn btn-danger">Revoke</button>
+							<button type="submit" class="btn btn-danger">[[#{consent-revoke}]]</button>
 						</form>
 					</div>
 				</div>
